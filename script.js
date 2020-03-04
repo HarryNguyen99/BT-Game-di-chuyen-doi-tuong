@@ -1,4 +1,4 @@
-function Hero(image, top, left, size) {
+function Hero(image, top, below, left, right, size) {
     this.image = image;
     this.top = top;
     this.left = left;
@@ -9,23 +9,36 @@ function Hero(image, top, left, size) {
             ' height="' + this.size + '"' +
             ' src="' + this.image + '"' +
             ' style="top: ' + this.top + 'px; left:' + this.left + 'px; position:absolute;" />';
-    }
-
+    };
     this.moveRight = function () {
-        this.left += 50;
-        console.log('ok: ' + this.left);
-    }
+        this.left += 100;
+    };
+    this.moveBelow = function () {
+        this.top += 100;
+    };
+    this.moveLeft = function () {
+        this.left -= 100;
+    };
+    this.moveTop = function () {
+        this.top -= 100;
+    };
+};
 
-}
-
-let hero = new Hero('songoku.png', 20, 0, 200);
+let hero = new Hero("songoku.png", 20, 20, 20, 20, 200);
 
 function start() {
-    if (hero.left < window.innerWidth - hero.size) {
+    if (hero.left < window.innerWidth - hero.size && hero.top < 50) {
         hero.moveRight();
+    } else if (hero.top < window.innerHeight - hero.size && hero.left >= window.innerWidth - 200) {
+        hero.moveBelow();
+    } else if (hero.left > 100) {
+        hero.moveLeft();
+    } else {
+        hero.moveTop();
     }
+
     document.getElementById('game').innerHTML = hero.getHeroElement();
-    setTimeout(start, 500)
+    setTimeout(start, 50)
 }
 
 
